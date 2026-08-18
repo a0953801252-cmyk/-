@@ -1,0 +1,2451 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>1895 文化身份測驗</title>
+
+
+  <style>
+
+    /* =========================
+       基本設定
+    ========================= */
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+
+      margin: 0;
+
+      min-height: 100vh;
+
+      font-family:
+        "Noto Serif TC",
+        "Noto Sans TC",
+        "Microsoft JhengHei",
+        sans-serif;
+
+      background: #102942;
+
+      color: #34281e;
+
+    }
+
+    button {
+      font-family: inherit;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+
+
+    /* =========================
+       APP 主容器
+    ========================= */
+
+    .app {
+
+      width: 100%;
+
+      max-width: 620px;
+
+      min-height: 100vh;
+
+      margin: 0 auto;
+
+      background: #f3e5ca;
+
+      overflow: hidden;
+
+      position: relative;
+
+      box-shadow:
+        0 0 35px
+        rgba(0, 0, 0, 0.35);
+
+    }
+
+
+
+    /* =========================
+       開始頁
+    ========================= */
+
+    #startScreen {
+
+      width: 100%;
+
+      min-height: 100vh;
+
+      background: #102942;
+
+    }
+
+
+    .start-image-wrapper {
+
+      position: relative;
+
+      width: 100%;
+
+    }
+
+
+    .start-image {
+
+      display: block;
+
+      width: 100%;
+
+      height: auto;
+
+    }
+
+
+
+    /*
+      透明開始按鈕
+      疊在圖片中的「開始測驗」
+    */
+
+    .start-click-area {
+
+      position: absolute;
+
+      left: 18%;
+
+      width: 64%;
+
+      bottom: 4.2%;
+
+      height: 7%;
+
+      border: none;
+
+      border-radius: 100px;
+
+      background: transparent;
+
+      cursor: pointer;
+
+      z-index: 10;
+
+    }
+
+
+    .start-click-area:hover {
+
+      background:
+        rgba(255, 255, 255, 0.07);
+
+    }
+
+
+
+    /* =========================
+       測驗頁
+    ========================= */
+
+    #quizScreen {
+
+      min-height: 100vh;
+
+      padding-bottom: 50px;
+
+      background:
+
+        linear-gradient(
+          180deg,
+          #132d49 0,
+          #132d49 220px,
+          #f3e5ca 220px,
+          #f3e5ca 100%
+        );
+
+    }
+
+
+
+    /* 標題 */
+
+    .quiz-header {
+
+      padding:
+        28px
+        20px
+        14px;
+
+      text-align: center;
+
+      color: #fff2d5;
+
+    }
+
+
+    .quiz-year {
+
+      margin-bottom: 7px;
+
+      font-size: 28px;
+
+      letter-spacing: 5px;
+
+    }
+
+
+    .quiz-name {
+
+      font-size: 26px;
+
+      font-weight: bold;
+
+      letter-spacing: 4px;
+
+    }
+
+
+
+    /* 進度 */
+
+    .progress-section {
+
+      padding:
+        15px
+        28px
+        15px;
+
+    }
+
+
+    .progress-text {
+
+      margin-bottom: 12px;
+
+      color: #f8e7c6;
+
+      text-align: center;
+
+      font-size: 14px;
+
+    }
+
+
+    .progress-track {
+
+      width: 100%;
+
+      height: 9px;
+
+      background:
+        rgba(255, 255, 255, 0.25);
+
+      border-radius: 20px;
+
+      overflow: hidden;
+
+    }
+
+
+    .progress-bar {
+
+      width: 0;
+
+      height: 100%;
+
+      background: #ae4b34;
+
+      border-radius: 20px;
+
+      transition:
+        width 0.3s ease;
+
+    }
+
+
+
+    /* 問題卡 */
+
+    .question-card {
+
+      position: relative;
+
+      margin:
+        28px
+        20px;
+
+      padding:
+        31px
+        22px
+        24px;
+
+      background: #fff8e9;
+
+      border:
+        2px solid
+        #d3b685;
+
+      border-radius: 23px;
+
+      box-shadow:
+        0 8px 24px
+        rgba(67, 41, 19, 0.14);
+
+    }
+
+
+    .question-card::before {
+
+      content: "✿";
+
+      position: absolute;
+
+      top: -19px;
+
+      left: 50%;
+
+      transform:
+        translateX(-50%);
+
+      display: flex;
+
+      justify-content: center;
+
+      align-items: center;
+
+      width: 38px;
+
+      height: 38px;
+
+      border-radius: 50%;
+
+      background: #a74330;
+
+      color: #f6e1b6;
+
+      font-size: 20px;
+
+    }
+
+
+
+    /* 題目 */
+
+    .question {
+
+      margin:
+        5px
+        0
+        26px;
+
+      color: #17314d;
+
+      text-align: center;
+
+      font-size: 21px;
+
+      font-weight: bold;
+
+      line-height: 1.65;
+
+    }
+
+
+
+    /* 選項 */
+
+    .option {
+
+      display: flex;
+
+      align-items: flex-start;
+
+      gap: 13px;
+
+      width: 100%;
+
+      margin:
+        12px
+        0;
+
+      padding:
+        15px;
+
+      border:
+        1.5px solid
+        #d2b487;
+
+      border-radius: 14px;
+
+      background: #fffdf6;
+
+      color: #413124;
+
+      font-size: 16px;
+
+      line-height: 1.65;
+
+      text-align: left;
+
+      cursor: pointer;
+
+      transition: 0.18s ease;
+
+    }
+
+
+    .option:hover {
+
+      background: #f6e6c8;
+
+      border-color: #a34732;
+
+      transform:
+        translateY(-2px);
+
+    }
+
+
+    .option:active {
+
+      transform:
+        scale(0.99);
+
+    }
+
+
+    .option-letter {
+
+      flex-shrink: 0;
+
+      display: flex;
+
+      justify-content: center;
+
+      align-items: center;
+
+      width: 32px;
+
+      height: 32px;
+
+      border-radius: 50%;
+
+      background: #17334f;
+
+      color: #fff4db;
+
+      font-weight: bold;
+
+    }
+
+
+
+    /* =========================
+       結果頁
+    ========================= */
+
+    #resultScreen {
+
+      width: 100%;
+
+      min-height: 100vh;
+
+      padding-bottom: 28px;
+
+      background: #102942;
+
+    }
+
+
+    .result-wrapper {
+
+      position: relative;
+
+      width: 100%;
+
+    }
+
+
+    .result-image {
+
+      display: block;
+
+      width: 100%;
+
+      height: auto;
+
+    }
+
+
+
+    /*
+      如果你設計圖裡面本身有
+      「分享到 IG 限時動態」按鈕，
+      這個透明按鈕就覆蓋在上面。
+    */
+
+    .share-click-area {
+
+      position: absolute;
+
+      left: 16%;
+
+      width: 68%;
+
+      bottom: 5.5%;
+
+      height: 6%;
+
+      border: none;
+
+      border-radius: 100px;
+
+      background: transparent;
+
+      cursor: pointer;
+
+      z-index: 10;
+
+    }
+
+
+    .share-click-area:hover {
+
+      background:
+        rgba(255, 255, 255, 0.07);
+
+    }
+
+
+
+    /*
+      圖片裡面的「再測一次」
+    */
+
+    .retry-click-area {
+
+      position: absolute;
+
+      left: 29%;
+
+      width: 42%;
+
+      bottom: 1%;
+
+      height: 4%;
+
+      border: none;
+
+      border-radius: 100px;
+
+      background: transparent;
+
+      cursor: pointer;
+
+      z-index: 10;
+
+    }
+
+
+
+    /* =========================
+       結果頁下方實體按鈕
+       避免透明區位置不準
+    ========================= */
+
+    .result-actions {
+
+      display: flex;
+
+      flex-direction: column;
+
+      gap: 12px;
+
+      padding:
+        22px
+        20px
+        5px;
+
+    }
+
+
+    .share-button,
+    .retry-button {
+
+      width: 100%;
+
+      padding:
+        15px
+        20px;
+
+      border-radius: 50px;
+
+      font-size: 17px;
+
+      font-weight: bold;
+
+      letter-spacing: 1px;
+
+      cursor: pointer;
+
+    }
+
+
+    .share-button {
+
+      border:
+        2px solid
+        #ead2a6;
+
+      background: #a74431;
+
+      color: #fff5de;
+
+    }
+
+
+    .share-button:hover {
+
+      background: #8d3628;
+
+    }
+
+
+    .retry-button {
+
+      border:
+        2px solid
+        #d5b57e;
+
+      background: #17314d;
+
+      color: #fff5de;
+
+    }
+
+
+    .retry-button:hover {
+
+      background: #234764;
+
+    }
+
+
+
+    /* =========================
+       分享提示
+    ========================= */
+
+    .share-message {
+
+      display: none;
+
+      margin:
+        0
+        20px
+        10px;
+
+      padding:
+        14px
+        16px;
+
+      border-radius: 12px;
+
+      background: #f4e4c8;
+
+      color: #553b29;
+
+      text-align: center;
+
+      font-size: 14px;
+
+      line-height: 1.7;
+
+    }
+
+
+    .share-message.show {
+
+      display: block;
+
+    }
+
+
+
+    /* =========================
+       找不到結果圖
+    ========================= */
+
+    .image-error {
+
+      min-height: 100vh;
+
+      padding:
+        90px
+        25px;
+
+      background: #f3e5ca;
+
+      text-align: center;
+
+    }
+
+
+    .image-error h2 {
+
+      color: #17314d;
+
+      font-size: 30px;
+
+    }
+
+
+    .image-error p {
+
+      line-height: 1.8;
+
+    }
+
+
+    .normal-button {
+
+      margin-top: 20px;
+
+      padding:
+        14px
+        30px;
+
+      border: none;
+
+      border-radius: 50px;
+
+      background: #17314d;
+
+      color: #fff4dc;
+
+      font-size: 17px;
+
+      cursor: pointer;
+
+    }
+
+
+
+    /* =========================
+       手機
+    ========================= */
+
+    @media (max-width: 620px) {
+
+      .app {
+
+        max-width: none;
+
+        box-shadow: none;
+
+      }
+
+
+      .question-card {
+
+        margin:
+          27px
+          14px;
+
+        padding:
+          28px
+          16px
+          22px;
+
+      }
+
+
+      .question {
+
+        font-size: 19px;
+
+      }
+
+
+      .option {
+
+        font-size: 15px;
+
+      }
+
+
+      .quiz-year {
+
+        font-size: 25px;
+
+      }
+
+
+      .quiz-name {
+
+        font-size: 23px;
+
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+  <!-- =========================
+       開始頁
+  ========================== -->
+
+  <section id="startScreen">
+
+
+    <div class="start-image-wrapper">
+
+
+      <img
+        src="./images/start-cover.png"
+        class="start-image"
+        alt="1895文化身份測驗開始畫面"
+      >
+
+
+      <button
+        class="start-click-area"
+        onclick="startQuiz()"
+        aria-label="開始測驗"
+      ></button>
+
+
+    </div>
+
+
+  </section>
+
+
+
+  <!-- =========================
+       測驗頁
+  ========================== -->
+
+  <section
+    id="quizScreen"
+    class="hidden"
+  >
+
+
+    <header class="quiz-header">
+
+
+      <div class="quiz-year">
+        ✿ 1895 ✿
+      </div>
+
+
+      <div class="quiz-name">
+        文化身份測驗
+      </div>
+
+
+    </header>
+
+
+
+    <div class="progress-section">
+
+
+      <div
+        id="progressText"
+        class="progress-text"
+      ></div>
+
+
+      <div class="progress-track">
+
+
+        <div
+          id="progressBar"
+          class="progress-bar"
+        ></div>
+
+
+      </div>
+
+
+    </div>
+
+
+
+    <main class="question-card">
+
+
+      <div
+        id="question"
+        class="question"
+      ></div>
+
+
+      <div id="options"></div>
+
+
+    </main>
+
+
+  </section>
+
+
+
+  <!-- =========================
+       結果頁
+  ========================== -->
+
+  <section
+    id="resultScreen"
+    class="hidden"
+  >
+
+
+    <div
+      id="resultWrapper"
+      class="result-wrapper"
+    >
+
+
+      <img
+        id="resultImage"
+        class="result-image"
+        src=""
+        alt="1895文化身份測驗結果"
+      >
+
+
+      <!--
+        圖片上透明分享按鈕
+      -->
+
+      <button
+        class="share-click-area"
+        onclick="shareResult()"
+        aria-label="分享到 Instagram"
+      ></button>
+
+
+      <!--
+        圖片上透明重新測驗按鈕
+      -->
+
+      <button
+        class="retry-click-area"
+        onclick="restartQuiz()"
+        aria-label="再測一次"
+      ></button>
+
+
+    </div>
+
+
+
+    <div
+      id="shareMessage"
+      class="share-message"
+    ></div>
+
+
+
+    <!--
+      額外保留真的按鈕，
+      即使圖片上的位置不準仍可使用
+    -->
+
+    <div
+      id="resultActions"
+      class="result-actions"
+    >
+
+
+      <button
+        class="share-button"
+        onclick="shareResult()"
+      >
+        分享結果到 Instagram
+      </button>
+
+
+      <button
+        class="retry-button"
+        onclick="restartQuiz()"
+      >
+        ↻ 再測一次
+      </button>
+
+
+    </div>
+
+
+
+    <!-- 找不到圖片時 -->
+
+    <div
+      id="imageError"
+      class="image-error hidden"
+    >
+
+
+      <h2 id="errorCharacter"></h2>
+
+
+      <p>
+        找不到這個角色的結果圖片。<br>
+        請確認圖片已上傳到 images 資料夾，
+        且檔名與程式完全一致。
+      </p>
+
+
+      <button
+        class="normal-button"
+        onclick="restartQuiz()"
+      >
+        再測一次
+      </button>
+
+
+    </div>
+
+
+  </section>
+
+
+</div>
+
+
+
+<script>
+
+
+/* ========================================
+   八位人物
+======================================== */
+
+const characters = {
+
+
+  "胡嘉猷": {
+
+    title:
+      "地方號召者",
+
+    image:
+      "./images/hu-jia-you.png"
+
+  },
+
+
+  "江國輝": {
+
+    title:
+      "守城隊長",
+
+    image:
+      "./images/jiang-guo-hui.png"
+
+  },
+
+
+  "吳湯興": {
+
+    title:
+      "可靠統領",
+
+    image:
+      "./images/wu-tang-xing.png"
+
+  },
+
+
+  "徐驤": {
+
+    title:
+      "不屈行動派",
+
+    image:
+      "./images/xu-xiang.png"
+
+  },
+
+
+  "姜紹祖": {
+
+    title:
+      "熱血理想派",
+
+    image:
+      "./images/jiang-shao-zu.png"
+
+  },
+
+
+  "丘逢甲": {
+
+    title:
+      "理想策士",
+
+    image:
+      "./images/qiu-feng-jia.png"
+
+  },
+
+
+  "劉永福": {
+
+    title:
+      "老練戰略家",
+
+    image:
+      "./images/liu-yong-fu.png"
+
+  },
+
+
+  "邱鳳揚": {
+
+    title:
+      "社群守護者",
+
+    image:
+      "./images/qiu-feng-yang.png"
+
+  }
+
+};
+
+
+
+/* ========================================
+   八題
+======================================== */
+
+const questions = [
+
+
+  /* 第 1 題 */
+
+  {
+
+    question:
+      "當你的團隊突然遇到重大危機，你第一個反應會是？",
+
+    options: [
+
+      {
+
+        text:
+          "先把大家集合起來，確認每個人能做什麼，再一起行動。",
+
+        character:
+          "胡嘉猷"
+
+      },
+
+
+      {
+
+        text:
+          "馬上觀察環境，找到最有機會突破的地方直接行動。",
+
+        character:
+          "徐驤"
+
+      },
+
+
+      {
+
+        text:
+          "先冷靜評估手上的資源、勝算和可能的後果。",
+
+        character:
+          "劉永福"
+
+      },
+
+
+      {
+
+        text:
+          "即使成功機率不高，只要覺得這件事是對的，我還是會站出來。",
+
+        character:
+          "姜紹祖"
+
+      }
+
+    ]
+
+  },
+
+
+
+  /* 第 2 題 */
+
+  {
+
+    question:
+      "如果大家意見嚴重分歧，你比較可能怎麼做？",
+
+    options: [
+
+      {
+
+        text:
+          "建立明確規則和分工，先讓團隊恢復秩序。",
+
+        character:
+          "江國輝"
+
+      },
+
+
+      {
+
+        text:
+          "找出大家共同相信的目標，用理念重新凝聚大家。",
+
+        character:
+          "丘逢甲"
+
+      },
+
+
+      {
+
+        text:
+          "花時間協調不同意見，讓大部分人都願意一起走下去。",
+
+        character:
+          "胡嘉猷"
+
+      },
+
+
+      {
+
+        text:
+          "如果討論一直僵持，我會做出決定，帶著大家先採取行動。",
+
+        character:
+          "江國輝"
+
+      }
+
+    ]
+
+  },
+
+
+
+  /* 第 3 題 */
+
+  {
+
+    question:
+      "老師突然要你負責一個困難的大型活動，你最可能成為哪種人？",
+
+    options: [
+
+      {
+
+        text:
+          "總召型：分配工作、追進度，確保每個環節都有人負責。",
+
+        character:
+          "吳湯興"
+
+      },
+
+
+      {
+
+        text:
+          "軍師型：分析整體局勢，思考怎樣做最有效率。",
+
+        character:
+          "劉永福"
+
+      },
+
+
+      {
+
+        text:
+          "氣氛核心型：照顧每個人的狀況，讓團隊不要散掉。",
+
+        character:
+          "邱鳳揚"
+
+      },
+
+
+      {
+
+        text:
+          "創意突破型：遇到問題就換方法，不會死守原本計畫。",
+
+        character:
+          "徐驤"
+
+      }
+
+    ]
+
+  },
+
+
+
+  /* 第 4 題 */
+
+  {
+
+    question:
+      "如果你發現自己支持的事情可能會失敗，你會？",
+
+    options: [
+
+      {
+
+        text:
+          "只要這件事值得，就算結果不好，我還是想堅持到底。",
+
+        character:
+          "姜紹祖"
+
+      },
+
+
+      {
+
+        text:
+          "重新分析局勢，如果原本的方法不可行，就改變策略。",
+
+        character:
+          "劉永福"
+
+      },
+
+
+      {
+
+        text:
+          "想辦法號召更多人，讓大家相信同一個目標。",
+
+        character:
+          "丘逢甲"
+
+      },
+
+
+      {
+
+        text:
+          "先保護身邊的人和團隊，確定大家能一起撐過危機。",
+
+        character:
+          "邱鳳揚"
+
+      }
+
+    ]
+
+  },
+
+
+
+  /* 第 5 題 */
+
+  {
+
+    question:
+      "以下哪一句話最接近你的想法？",
+
+    options: [
+
+      {
+
+        text:
+          "既然大家把事情交給我，我就有責任做到最後。",
+
+        character:
+          "吳湯興"
+
+      },
+
+
+      {
+
+        text:
+          "輸一次沒有關係，我可以換個方法再來。",
+
+        character:
+          "徐驤"
+
+      },
+
+
+      {
+
+        text:
+          "比起我自己出風頭，我更希望大家都能平安。",
+
+        character:
+          "邱鳳揚"
+
+      },
+
+
+      {
+
+        text:
+          "真正重要的是看清整個局勢，而不是只憑一時衝動。",
+
+        character:
+          "劉永福"
+
+      }
+
+    ]
+
+  },
+
+
+
+  /* 第 6 題 */
+
+  {
+
+    question:
+      "當你看到一件你認為不公平的事情，你最可能？",
+
+    options: [
+
+      {
+
+        text:
+          "很快站出來表態，即使可能因此吃虧。",
+
+        character:
+          "姜紹祖"
+
+      },
+
+
+      {
+
+        text:
+          "思考怎麼把理念說清楚，讓更多人願意支持。",
+
+        character:
+          "丘逢甲"
+
+      },
+
+
+      {
+
+        text:
+          "找身邊可信任的人一起行動，建立合作團隊。",
+
+        character:
+          "胡嘉猷"
+
+      },
+
+
+      {
+
+        text:
+          "先判斷現在直接對抗是不是最好的方法，再決定怎麼出手。",
+
+        character:
+          "江國輝"
+
+      }
+
+    ]
+
+  },
+
+
+
+  /* 第 7 題 */
+
+  {
+
+    question:
+      "如果你是隊長，你最希望隊友怎麼形容你？",
+
+    options: [
+
+      {
+
+        text:
+          "他很可靠，有他在我們知道自己該做什麼。",
+
+        character:
+          "吳湯興"
+
+      },
+
+
+      {
+
+        text:
+          "他超難被打倒，遇到什麼狀況都有辦法繼續。",
+
+        character:
+          "徐驤"
+
+      },
+
+
+      {
+
+        text:
+          "他真的很敢，認為對的事情就會全力去做。",
+
+        character:
+          "姜紹祖"
+
+      },
+
+
+      {
+
+        text:
+          "他很會看大局，常常想到我們沒有注意到的事情。",
+
+        character:
+          "丘逢甲"
+
+      }
+
+    ]
+
+  },
+
+
+
+  /* 第 8 題 */
+
+  {
+
+    question:
+      "假設你的家鄉遇到前所未有的危機，你最想扮演哪個角色？",
+
+    options: [
+
+      {
+
+        text:
+          "把地方上的人組織起來，募集資源、安排人手。",
+
+        character:
+          "胡嘉猷"
+
+      },
+
+
+      {
+
+        text:
+          "維持地方秩序，同時準備面對外來威脅。",
+
+        character:
+          "江國輝"
+
+      },
+
+
+      {
+
+        text:
+          "整合不同力量，成為能讓大家依靠的領導者。",
+
+        character:
+          "吳湯興"
+
+      },
+
+
+      {
+
+        text:
+          "留在大家身邊，守住家園和共同生活的地方。",
+
+        character:
+          "邱鳳揚"
+
+      }
+
+    ]
+
+  }
+
+];
+
+
+
+/* ========================================
+   測驗狀態
+======================================== */
+
+let currentQuestion = 0;
+
+let scores = {};
+
+let finalCharacter = "";
+
+
+
+/* ========================================
+   初始化
+======================================== */
+
+function resetScores() {
+
+  scores = {};
+
+  Object
+    .keys(characters)
+    .forEach(character => {
+
+      scores[character] = 0;
+
+    });
+
+}
+
+
+
+/* ========================================
+   開始測驗
+======================================== */
+
+function startQuiz() {
+
+
+  resetScores();
+
+
+  currentQuestion = 0;
+
+
+  finalCharacter = "";
+
+
+  document
+    .getElementById("startScreen")
+    .classList
+    .add("hidden");
+
+
+  document
+    .getElementById("resultScreen")
+    .classList
+    .add("hidden");
+
+
+  document
+    .getElementById("quizScreen")
+    .classList
+    .remove("hidden");
+
+
+  hideShareMessage();
+
+
+  showQuestion();
+
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+}
+
+
+
+/* ========================================
+   顯示題目
+======================================== */
+
+function showQuestion() {
+
+
+  const data =
+    questions[currentQuestion];
+
+
+  document
+    .getElementById("progressText")
+    .textContent =
+      `第 ${currentQuestion + 1} 題 ／ 共 ${questions.length} 題`;
+
+
+
+  const progress =
+    (
+      (currentQuestion + 1)
+      /
+      questions.length
+    )
+    * 100;
+
+
+  document
+    .getElementById("progressBar")
+    .style
+    .width =
+      progress + "%";
+
+
+
+  document
+    .getElementById("question")
+    .textContent =
+      data.question;
+
+
+
+  const optionsBox =
+    document
+      .getElementById("options");
+
+
+  optionsBox.innerHTML = "";
+
+
+
+  data
+    .options
+    .forEach(
+      (option, index) => {
+
+
+        const button =
+          document
+            .createElement("button");
+
+
+        button.className =
+          "option";
+
+
+
+        const letter =
+          document
+            .createElement("span");
+
+
+        letter.className =
+          "option-letter";
+
+
+        letter.textContent =
+          String.fromCharCode(
+            65 + index
+          );
+
+
+
+        const text =
+          document
+            .createElement("span");
+
+
+        text.textContent =
+          option.text;
+
+
+
+        button.appendChild(
+          letter
+        );
+
+
+        button.appendChild(
+          text
+        );
+
+
+
+        button.addEventListener(
+          "click",
+          function () {
+
+            selectAnswer(
+              option.character
+            );
+
+          }
+        );
+
+
+
+        optionsBox.appendChild(
+          button
+        );
+
+      }
+    );
+
+}
+
+
+
+/* ========================================
+   選答案
+======================================== */
+
+function selectAnswer(character) {
+
+
+  scores[character] += 1;
+
+
+  currentQuestion += 1;
+
+
+
+  if (
+    currentQuestion
+    <
+    questions.length
+  ) {
+
+
+    showQuestion();
+
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+
+  }
+
+  else {
+
+
+    calculateResult();
+
+
+  }
+
+}
+
+
+
+/* ========================================
+   計算結果
+======================================== */
+
+function calculateResult() {
+
+
+  const highestScore =
+    Math.max(
+      ...Object.values(scores)
+    );
+
+
+  const winners =
+    Object
+      .keys(scores)
+      .filter(character =>
+
+        scores[character]
+        ===
+        highestScore
+
+      );
+
+
+
+  /*
+    同分時隨機選一位
+  */
+
+  const winnerIndex =
+    Math.floor(
+      Math.random()
+      *
+      winners.length
+    );
+
+
+  finalCharacter =
+    winners[winnerIndex];
+
+
+  showResult(
+    finalCharacter
+  );
+
+}
+
+
+
+/* ========================================
+   顯示結果
+======================================== */
+
+function showResult(character) {
+
+
+  document
+    .getElementById("quizScreen")
+    .classList
+    .add("hidden");
+
+
+  document
+    .getElementById("resultScreen")
+    .classList
+    .remove("hidden");
+
+
+
+  const result =
+    characters[character];
+
+
+  const image =
+    document
+      .getElementById("resultImage");
+
+
+  const wrapper =
+    document
+      .getElementById("resultWrapper");
+
+
+  const errorBox =
+    document
+      .getElementById("imageError");
+
+
+  const actions =
+    document
+      .getElementById("resultActions");
+
+
+
+  errorBox.classList.add(
+    "hidden"
+  );
+
+
+  wrapper.classList.remove(
+    "hidden"
+  );
+
+
+  actions.classList.remove(
+    "hidden"
+  );
+
+
+
+  image.onload =
+    function () {
+
+
+      wrapper.classList.remove(
+        "hidden"
+      );
+
+
+      errorBox.classList.add(
+        "hidden"
+      );
+
+
+      actions.classList.remove(
+        "hidden"
+      );
+
+
+    };
+
+
+
+  image.onerror =
+    function () {
+
+
+      wrapper.classList.add(
+        "hidden"
+      );
+
+
+      actions.classList.add(
+        "hidden"
+      );
+
+
+      errorBox.classList.remove(
+        "hidden"
+      );
+
+
+      document
+        .getElementById(
+          "errorCharacter"
+        )
+        .textContent =
+          `${character}｜${result.title}`;
+
+    };
+
+
+
+  image.src =
+    result.image;
+
+
+  image.alt =
+    `${character}｜${result.title}｜1895文化身份測驗結果`;
+
+
+  hideShareMessage();
+
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+}
+
+
+
+/* ========================================
+   分享結果
+======================================== */
+
+async function shareResult() {
+
+
+  if (!finalCharacter) {
+    return;
+  }
+
+
+  const result =
+    characters[finalCharacter];
+
+
+  const shareText =
+    `我的1895文化身份是「${finalCharacter}｜${result.title}」！`;
+
+
+  const imagePath =
+    result.image;
+
+
+
+  try {
+
+
+    /*
+      讀取結果圖片
+    */
+
+    const response =
+      await fetch(
+        imagePath
+      );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        "無法讀取結果圖片"
+      );
+
+    }
+
+
+
+    const blob =
+      await response.blob();
+
+
+
+    const fileName =
+      `${finalCharacter}-1895文化身份測驗.png`;
+
+
+
+    const file =
+      new File(
+
+        [blob],
+
+        fileName,
+
+        {
+          type:
+            blob.type
+            ||
+            "image/png"
+        }
+
+      );
+
+
+
+    /*
+      情況 1：
+      手機支援分享圖片
+
+      → 開啟系統分享頁
+      → 選 Instagram
+    */
+
+    if (
+
+      navigator.share
+      &&
+      navigator.canShare
+      &&
+      navigator.canShare({
+        files: [file]
+      })
+
+    ) {
+
+
+      await navigator.share({
+
+        files:
+          [file],
+
+        title:
+          "1895文化身份測驗",
+
+        text:
+          shareText
+
+      });
+
+
+      return;
+
+    }
+
+
+
+    /*
+      情況 2：
+      不支援分享檔案，
+      但支援一般分享
+    */
+
+    if (
+      navigator.share
+    ) {
+
+
+      await navigator.share({
+
+        title:
+          "1895文化身份測驗",
+
+        text:
+          shareText,
+
+        url:
+          window.location.href
+
+      });
+
+
+      return;
+
+    }
+
+
+
+    /*
+      情況 3：
+      完全不支援 Web Share
+    */
+
+    fallbackInstagramShare(
+      shareText,
+      imagePath
+    );
+
+
+  }
+
+  catch (error) {
+
+
+    /*
+      使用者自己把分享視窗關掉
+      不算錯誤
+    */
+
+    if (
+      error.name
+      ===
+      "AbortError"
+    ) {
+
+      return;
+
+    }
+
+
+    console.error(
+      "分享失敗：",
+      error
+    );
+
+
+    fallbackInstagramShare(
+      shareText,
+      imagePath
+    );
+
+  }
+
+}
+
+
+
+/* ========================================
+   Instagram 備用分享方式
+======================================== */
+
+async function fallbackInstagramShare(
+  shareText,
+  imagePath
+) {
+
+
+  try {
+
+
+    /*
+      先把結果文字複製
+    */
+
+    if (
+      navigator.clipboard
+    ) {
+
+
+      await navigator
+        .clipboard
+        .writeText(
+          shareText
+        );
+
+
+    }
+
+
+  }
+
+  catch (error) {
+
+    console.log(
+      "無法複製文字"
+    );
+
+  }
+
+
+
+  showShareMessage(
+    "你的結果已準備好。瀏覽器無法直接把圖片送進 IG 限時動態，接下來會開啟 Instagram；你可以將結果圖片上傳到限時動態。"
+  );
+
+
+
+  /*
+    延遲一點，
+    讓使用者看到提示
+  */
+
+  setTimeout(
+    function () {
+
+
+      window.open(
+        "https://www.instagram.com/",
+        "_blank"
+      );
+
+
+    },
+    900
+  );
+
+}
+
+
+
+/* ========================================
+   分享提示文字
+======================================== */
+
+function showShareMessage(message) {
+
+
+  const box =
+    document
+      .getElementById(
+        "shareMessage"
+      );
+
+
+  box.textContent =
+    message;
+
+
+  box.classList.add(
+    "show"
+  );
+
+}
+
+
+
+function hideShareMessage() {
+
+
+  const box =
+    document
+      .getElementById(
+        "shareMessage"
+      );
+
+
+  box.classList.remove(
+    "show"
+  );
+
+
+
+  box.textContent =
+    "";
+
+}
+
+
+
+/* ========================================
+   再測一次
+======================================== */
+
+function restartQuiz() {
+
+
+  resetScores();
+
+
+  currentQuestion = 0;
+
+
+  finalCharacter = "";
+
+
+
+  document
+    .getElementById(
+      "resultScreen"
+    )
+    .classList
+    .add("hidden");
+
+
+
+  document
+    .getElementById(
+      "quizScreen"
+    )
+    .classList
+    .add("hidden");
+
+
+
+  document
+    .getElementById(
+      "startScreen"
+    )
+    .classList
+    .remove("hidden");
+
+
+
+  document
+    .getElementById(
+      "progressBar"
+    )
+    .style
+    .width =
+      "0%";
+
+
+  hideShareMessage();
+
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+}
+
+
+
+/* ========================================
+   第一次開啟
+======================================== */
+
+resetScores();
+
+
+</script>
+
+
+</body>
+
+</html>
